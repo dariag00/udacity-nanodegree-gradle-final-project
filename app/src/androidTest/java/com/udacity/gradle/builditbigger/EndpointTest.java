@@ -1,11 +1,11 @@
-package com.example.builditbigger;
+package com.udacity.gradle.builditbigger;
 
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.udacity.gradle.builditbigger.MainActivity;
+import com.example.jokeactivity.JokeActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
