@@ -3,10 +3,10 @@ package com.udacity.gradle.builditbigger;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Pair;
+import android.util.Log;
 import android.widget.Toast;
 
-import com.example.jokeactivity.JokeActivity;
+import com.example.builditbigger.JokeActivity;
 import com.example.joketellingapp.JokeTellingApp;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -20,6 +20,12 @@ public class EndpointAsyncTask extends AsyncTask<Context, Void, String> {
 
     private MyApi myApiService = null;
     private Context context;
+
+    private EndpointListener endpointListener;
+
+    public EndpointAsyncTask(EndpointListener endpointListener){
+        this.endpointListener = endpointListener;
+    }
 
     @Override
     protected String doInBackground(Context ... contexts) {
@@ -42,7 +48,8 @@ public class EndpointAsyncTask extends AsyncTask<Context, Void, String> {
         try {
             return myApiService.getJoke().execute().getData();
         } catch (IOException e) {
-            return e.getMessage();
+            Log.e(EndpointAsyncTask.class.getName(), "Error: ", e);
+            return null;
         }
 
     }
@@ -50,8 +57,16 @@ public class EndpointAsyncTask extends AsyncTask<Context, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         Toast.makeText(context, s, Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(context, JokeActivity.class);
-        intent.putExtra("joke", JokeTellingApp.provideJoke());
-        context.startActivity(intent);
+        if(s != null && !s.isEmpty()){
+            endpointListener.onTaskCompleted(s);
+        } else {
+            endpointListener.onTaskCompleted("");
+        }
     }
+
+
+    public interface EndpointListener {
+        void onTaskCompleted(String obtainedJoke);
+    }
+
 }
