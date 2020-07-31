@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.builditbigger.JokeActivity;
+import com.example.jokeactivity.JokeActivity;
 
 
 public class MainActivity extends AppCompatActivity implements EndpointAsyncTask.EndpointListener {

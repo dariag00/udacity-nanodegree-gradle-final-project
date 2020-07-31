@@ -23,12 +23,11 @@ import static org.hamcrest.Matchers.not;
 public class EndpointTest {
 
     @Rule
-    private ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
     public void testGetJoke() {
         Espresso.onView(withId(R.id.joke_button)).perform(click());
-        Intents.intended(hasComponent(JokeActivity.class.getName()));
         Espresso.onView(withId(R.id.tv_joke)).check(matches(not(withText(""))));
     }
 }
