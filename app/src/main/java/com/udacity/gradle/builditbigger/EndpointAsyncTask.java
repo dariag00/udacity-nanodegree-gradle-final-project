@@ -3,7 +3,6 @@ package com.udacity.gradle.builditbigger;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -16,7 +15,6 @@ import java.io.IOException;
 public class EndpointAsyncTask extends AsyncTask<Context, Void, String> {
 
     private MyApi myApiService = null;
-    private Context context;
 
     private EndpointListener endpointListener;
 
@@ -40,7 +38,7 @@ public class EndpointAsyncTask extends AsyncTask<Context, Void, String> {
             myApiService = builder.build();
         }
 
-        context = contexts[0];
+        Context context = contexts[0];
 
         try {
             return myApiService.getJoke().execute().getData();
@@ -53,7 +51,6 @@ public class EndpointAsyncTask extends AsyncTask<Context, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        Toast.makeText(context, s, Toast.LENGTH_LONG).show();
         if(s != null && !s.isEmpty()){
             endpointListener.onTaskCompleted(s);
         } else {

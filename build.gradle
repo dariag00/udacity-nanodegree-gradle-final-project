@@ -20,3 +20,21 @@ allprojects {
         google()
     }
 }
+
+task startServer {
+    dependsOn ":backend:appengineRun"
+    println "Launching Google Cloud Server"
+    evaluationDependsOn ':backend'
+}
+
+task stopServer {
+    dependsOn ":backend:appengineStop"
+    println "Stopping Google Cloud Server"
+    evaluationDependsOn ':backend'
+}
+
+task runInstrumentedTests {
+    dependsOn ':app:connectedAndroidTest'
+    mustRunAfter "startServer"
+    finalizedBy "stopServer"
+}
