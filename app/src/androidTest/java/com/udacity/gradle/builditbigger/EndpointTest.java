@@ -4,6 +4,7 @@ import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,5 +26,19 @@ public class EndpointTest {
     public void testGetJoke() {
         Espresso.onView(withId(R.id.joke_button)).perform(click());
         Espresso.onView(withId(R.id.tv_joke)).check(matches(not(withText(""))));
+    }
+
+    @Test
+    public void testAsyncTask(){
+
+        EndpointAsyncTask endpointAsyncTask = new EndpointAsyncTask(new EndpointAsyncTask.EndpointListener() {
+            @Override
+            public void onTaskCompleted(String obtainedJoke) {
+                Assert.assertNotNull(obtainedJoke);
+                Assert.assertFalse(obtainedJoke.isEmpty());
+            }
+        });
+
+        endpointAsyncTask.execute(activityTestRule.getActivity());
     }
 }
